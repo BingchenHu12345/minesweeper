@@ -27,13 +27,8 @@ class Main {
     //place mines
     minePlacer(mineMap,gridSize);
     contactGrid(mineMap, grid);
-    //printing contact grid------TEMP
-    for(int i=0;i<mineMap.length;i++){
-      for(int j=0;j<mineMap.length;j++){
-        System.out.print(grid[i][j]);
-      }
-      System.out.println();
-    } 
+    
+    Run(grid,mineMap,dash);
   }
   
   // Placing mine function
@@ -83,11 +78,14 @@ class Main {
         }
         
       }
-      
+
     }
+  
+    //Checking game over
 public static boolean isGameOver(String dash[][])
   {
     int counterDash=0;
+    //checking if toch bomb
     for(int i=0;i<dash.length;i++)
     {
       for(int j=0;j<dash.length;j++)
@@ -99,19 +97,49 @@ public static boolean isGameOver(String dash[][])
       }
     }
 
-    if (counterDash == gridSize)
+    // ending or not ending the game
+    if (counterDash == dash.length)
     {
       return true;
     }
     else{return false;}
     
   }
-
+//main run loop
   public static void Run(int grid[][],boolean mineMap[][],String dash[][])
-  {
+  { 
     while (!isGameOver(dash)){
-      Scanner sc= new Scanner(System.in);
+      Scanner s= new Scanner(System.in);
+      display(dash);
+//asking choice
       System.out.println("what do you want to press, row, column");
+      String select=s.nextLine();
+        try  {
+          int rowIdx = Integer.parseInt(select.split(",")[0]);
+          int colIdx = Integer.parseInt(select.split(",")[1]);
+//checking if alive
+          if(mineMap[rowIdx][colIdx] == true) {
+            System.out.println("You lost");
+            break;
+          }
+          
+    dash[rowIdx][colIdx] = Integer.toString(grid[rowIdx][colIdx]);
+          
+        } catch (Exception e) {
+          System.out.println("make the format: 0,0");
+        }
     }
   }
+// printing grid
+  public static void display(String grid[][])
+  {
+    for(int i=0;i<grid.length;i++){
+      for(int j=0;j<grid.length;j++){
+        System.out.print(grid[i][j]);
+      }
+      System.out.println();
+    } 
+  }
+
+  
 }
