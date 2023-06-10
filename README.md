@@ -1,2 +1,2 @@
 # minesweeper
-working on minesweeperDone with minesweeper
+Done with minesweeper
